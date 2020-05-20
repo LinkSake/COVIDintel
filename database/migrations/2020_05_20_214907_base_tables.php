@@ -13,9 +13,9 @@ class BaseTables extends Migration
      */
     public function up()
     {
-        Schema::create('category_org', function (Blueprint $table) {
+        Schema::create('cat_org', function (Blueprint $table) {
             $table->bigIncrements('id_cat_org');
-            $table->string('category')->unique();
+            $table->string('category');
         });
 
         Schema::create('organization', function (Blueprint $table) {
@@ -24,7 +24,7 @@ class BaseTables extends Migration
             $table->unsignedBigInteger('id_cat_org');
             $table->foreign('id_cat_org')
                 ->references('id_cat_org')
-                ->on('category_org');
+                ->on('cat_org');
             $table->text('address');
             $table->string('email');
             $table->string('telefono');
@@ -33,12 +33,12 @@ class BaseTables extends Migration
 
         Schema::create('os_pc', function (Blueprint $table) {
             $table->bigIncrements('id_os_pc');
-            $table->string('os')->unique();
+            $table->string('os');
         });
 
         Schema::create('os_mobile', function (Blueprint $table) {
             $table->bigIncrements('id_os_mobile');
-            $table->string('os')->unique();
+            $table->string('os');
         });
 
         Schema::table('users', function (Blueprint $table) {
@@ -68,6 +68,6 @@ class BaseTables extends Migration
         Schema::dropIfExists('os_mobile');
         Schema::dropIfExists('os_pc');
         Schema::dropIfExists('organization');
-        Schema::dropIfExists('category_org');
+        Schema::dropIfExists('cat_org');
     }
 }
