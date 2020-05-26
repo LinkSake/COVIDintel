@@ -26,7 +26,6 @@ class catalogue extends Seeder
         DB::table('cat_org')->insert(['category' => 'Pequeña empresa']);
         DB::table('cat_org')->insert(['category' => 'Mediana empresa']);
         DB::table('cat_org')->insert(['category' => 'Grande empresa']);
-
-
+        
     }
 }

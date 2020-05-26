@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class StoredProcedures extends Migration
+class TechDataStoredProcedures extends Migration
 {
     /**
      * Run the migrations.
@@ -110,11 +110,11 @@ class StoredProcedures extends Migration
                 IN `n_id_cat_org` int,
                 IN `n_address` varchar(255),
                 IN `n_email` varchar(255),
-                IN `n_telefono` varchar(255)
+                IN `n_phone` varchar(255)
                 )
             BEGIN
-                INSERT INTO users (name, id_cat_org, address, email, telefono)
-                VALUES (n_name, n_id_car_org, n_address, n_email, n_telefono);
+                INSERT INTO users (name, id_cat_org, address, email, phone)
+                VALUES (n_name, n_id_car_org, n_address, n_email, n_phone);
             END
         ');
         DB::unprepared('
@@ -126,7 +126,7 @@ class StoredProcedures extends Migration
                 IN `n_id_cat_org` int,
                 IN `n_address` varchar(255),
                 IN `n_email` varchar(255),
-                IN `n_telefono` varchar(255)
+                IN `n_phone` varchar(255)
                 )
             BEGIN
                 UPDATE organization SET 
@@ -134,7 +134,7 @@ class StoredProcedures extends Migration
                     id_cat_org = n_id_car_org, 
                     address = n_address, 
                     email = n_email,
-                    telefono = n_telefono
+                    phone = n_phone
                 WHERE e_id_org = id_org;
             END
         ');
@@ -165,6 +165,61 @@ class StoredProcedures extends Migration
             END
         ');
 
+        //Usuario tiene organizaciónes
+        DB::unprepared('
+            DROP PROCEDURE IF EXISTS nuevo_usr_org;
+        
+            CREATE PROCEDURE `nuevo_usr_org` (
+                IN `n_id_user` int,
+                IN `n_id_org` int
+                )
+            BEGIN
+                INSERT INTO users_organizations (id_user, id_org)
+                VALUES (n_id_user, n_id_org);
+            END
+        ');
+        DB::unprepared('
+            DROP PROCEDURE IF EXISTS editar_usr_org;
+            
+            CREATE PROCEDURE `editar_usr_org` (
+                IN `e_id_usr_org` int,
+                IN `n_id_user` int,
+                IN `n_id_org` int
+                )
+            BEGIN
+                UPDATE users_organizations SET 
+                    id_user = n_id_user, 
+                    id_org = n_id_org
+                WHERE e_id_usr_org = id_usr_org;
+            END
+        ');
+        DB::unprepared('
+            DROP PROCEDURE IF EXISTS leer_usr_org;
+            
+            CREATE PROCEDURE `leer_usr_org` ()
+            BEGIN
+                SELECT 
+                *
+                FROM
+                users_organizations;
+            END
+        ');
+        DB::unprepared('
+            DROP PROCEDURE IF EXISTS detalle_usr_org;
+            
+            CREATE PROCEDURE `detalle_usr_org` (
+                IN `d_id_usr_org` int
+            )
+            BEGIN
+                SELECT 
+                *
+                FROM
+                users_organizations
+                WHERE
+                d_id_usr_org = id_usr_org;
+            END
+        ');
+
     }
 
     /**
@@ -183,5 +238,10 @@ class StoredProcedures extends Migration
         DB::unprepared('DROP PROCEDURE IF EXISTS editar_org;');
         DB::unprepared('DROP PROCEDURE IF EXISTS leer_org;');
         DB::unprepared('DROP PROCEDURE IF EXISTS detalle_org;');
+
+        DB::unprepared('DROP PROCEDURE IF EXISTS nuevo_usr_org;');
+        DB::unprepared('DROP PROCEDURE IF EXISTS editar_usr_org;');
+        DB::unprepared('DROP PROCEDURE IF EXISTS leer_usr_org;');
+        DB::unprepared('DROP PROCEDURE IF EXISTS detalle_usr_org;');
     }
 }
