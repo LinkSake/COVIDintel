@@ -76,6 +76,8 @@
                             <a href="{{ route('register') }}">Register</a>
                         @endif
                     @endauth
+
+                    <a href="http://">Register as an admin</a>
                 </div>
             @endif
 
