@@ -38,11 +38,11 @@ class TechDataViews extends Migration
                     `o`.`name` AS `org`
                 FROM
                     (((`develop7_ulsa`.`users_organizations` `uo`
-                    JOIN `develop7_ulsa`.`organization` `o` ON ((`uo`.`id_org` = `o`.`id_org`)))
-                    JOIN `develop7_ulsa`.`users` `u` ON ((`uo`.`id_user` = `u`.`id_user`)))
-                    JOIN `develop7_ulsa`.`cat_org` `co` ON ((`o`.`id_cat_org` = `co`.`id_cat_org`)))
-                    JOIN `develop7_ulsa`.`os_mobile` `om` ON ((`u`.`id_os_mobile` = `om`.`id_os_mobile`))
-                    JOIN `develop7_ulsa`.`os_pc` `op` ON ((`u`.`id_os_pc` = `op`.`id_os_pc`))
+                    LEFT JOIN `develop7_ulsa`.`organization` `o` ON ((`uo`.`id_org` = `o`.`id_org`)))
+                    LEFT JOIN `develop7_ulsa`.`users` `u` ON ((`uo`.`id_user` = `u`.`id_user`)))
+                    LEFT JOIN `develop7_ulsa`.`cat_org` `co` ON ((`o`.`id_cat_org` = `co`.`id_cat_org`)))
+                    LEFT JOIN `develop7_ulsa`.`os_mobile` `om` ON ((`u`.`id_os_mobile` = `om`.`id_os_mobile`))
+                    LEFT JOIN `develop7_ulsa`.`os_pc` `op` ON ((`u`.`id_os_pc` = `op`.`id_os_pc`))
         ');
     }
 
