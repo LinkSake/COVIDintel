@@ -19,7 +19,7 @@
         $tos = false;
         $obs = '';
         $fecha = '';
-        $id_usr_org = 0;
+        $id_usr_org = 1;
         $action = 'DatosController@create';
     @endphp
 @endif
@@ -87,15 +87,8 @@
             <div class="form-group">
                 <label for="sel1">Usuario - Organización:</label>
                 <select class="form-control" id="id_usr_org" name="id_usr_org">
-                    @foreach($dato as $dato)
-                        @if($id_usr_org == $dato->id_usr_org)
-                            <option value="{{$dato->id_usr_org}}" selected>
-                        @else
-                            <option value="{{$dato->id_usr_org}}">
-                        @endif
-                            {{$dato->id_usr_org}}
-                        </option>
-                    @endforeach
+                    <option value=1>1</option>
+                    <option value=2>2</option>
                 </select>
             </div>
         </div>

@@ -4,7 +4,11 @@
 <span>Listado de Datos Biometricos</span>
 <div style="float: right;">
 <a href="{{ url('dato/nuevo') }}" style="color: white;">
-    <span style="margin-right: .5 rem;">Crear curso</span>
+    <span style="margin-right: .5 rem;">Crear dato</span>
+</a>
+|
+<a href="{{ url('org/panel/1/1') }}" style="color: white;">
+    <span style="margin-right: .5 rem;">Volver al menú anterior</span>
 </a>
 </div>
 @endsection

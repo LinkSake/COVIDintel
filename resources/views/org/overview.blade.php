@@ -126,4 +126,10 @@
         </div>
     </div>
 </div>
+<div class="col-md-6 d-flex justify-content-center" style="margin-top:10px; ">
+        <a href="{{ url('dato/listado') }}" class="btn btn-primary" role="button">
+            Datos Biometricos
+        </a>
+</div>
+
 @endsection

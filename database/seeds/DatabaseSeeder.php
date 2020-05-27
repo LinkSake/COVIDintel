@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(catalogue::class);
         $this->call(TechMockData::class);
+        $this->call(datos_seed::class);
     }
 }
