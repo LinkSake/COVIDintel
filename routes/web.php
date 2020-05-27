@@ -21,6 +21,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['prefix'=>'dato'], function(){
+    Route::get('listado', 'DatosController@list');
+    Route::get('nuevo', 'DatosController@new');
+    Route::post('nuevo', 'DatosController@create');
+    Route::get('editar/{id}', 'DatosController@edit');
+    Route::post('editar', 'DatosController@update');
+    Route::get('eliminar/{id}', 'DatosController@remove');
+    Route::post('eliminar', 'DatosController@delete');
+});
