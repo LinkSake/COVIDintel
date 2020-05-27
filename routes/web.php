@@ -34,6 +34,16 @@ Route::group(['prefix'=>'org'], function() {
     Route::post('delete', 'OrganizationController@delete');
 });
 
+Route::group(['prefix'=>'dato'], function(){
+    Route::get('listado', 'DatosController@list');
+    Route::get('nuevo', 'DatosController@new');
+    Route::post('nuevo', 'DatosController@create');
+    Route::get('editar/{id}', 'DatosController@edit');
+    Route::post('editar', 'DatosController@update');
+    Route::get('eliminar/{id}', 'DatosController@remove');
+    Route::post('eliminar', 'DatosController@delete');
+});
+
 Route::group(['prefix'=>'user'], function() {
     Route::get('panel/{id}', 'UserController@overview')->name('board');
     Route::get('new', 'UserController@new');
