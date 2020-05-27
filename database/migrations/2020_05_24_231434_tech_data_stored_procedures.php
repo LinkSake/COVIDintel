@@ -100,6 +100,17 @@ class TechDataStoredProcedures extends Migration
                 d_id_user = id_user;
             END
         ');
+        DB::unprepared('
+            DROP PROCEDURE IF EXISTS eliminar_usuario;
+            
+            CREATE PROCEDURE `eliminar_usr` (
+                IN `d_id_user` int
+            )
+            BEGIN
+                DELETE FROM catCursos
+                WHERE id_user = d_id_user;
+            END
+        ');
 
         // Organizaciones
         DB::unprepared('
@@ -164,6 +175,17 @@ class TechDataStoredProcedures extends Migration
                 d_id_org = id_org;
             END
         ');
+        DB::unprepared('
+            DROP PROCEDURE IF EXISTS eliminar_org;
+            
+            CREATE PROCEDURE `eliminar_org` (
+                IN `d_id_org` int
+            )
+            BEGIN
+                DELETE FROM catCursos
+                WHERE id_org = d_id_org;
+            END
+        ');
 
         //Usuario tiene organizaciónes
         DB::unprepared('
@@ -219,6 +241,97 @@ class TechDataStoredProcedures extends Migration
                 d_id_usr_org = id_usr_org;
             END
         ');
+        DB::unprepared('
+            DROP PROCEDURE IF EXISTS eliminar_usr_org;
+            
+            CREATE PROCEDURE `eliminar_usr_org` (
+                IN `d_id_usr_org` int
+            )
+            BEGIN
+                DELETE FROM catCursos
+                WHERE id_usr_org = d_id_usr_org;
+            END
+        ');
+
+
+
+        // Catalogos
+        DB::unprepared('
+            DROP PROCEDURE IF EXISTS leer_cat_org;
+            
+            CREATE PROCEDURE `leer_cat_org` ()
+            BEGIN
+                SELECT 
+                *
+                FROM
+                cat_org;
+            END
+        ');
+        DB::unprepared('
+            DROP PROCEDURE IF EXISTS leer_os_pc;
+            
+            CREATE PROCEDURE `leer_os_pc` ()
+            BEGIN
+                SELECT 
+                *
+                FROM
+                os_pc;
+            END
+        ');
+        DB::unprepared('
+            DROP PROCEDURE IF EXISTS leer_os_mobile;
+            
+            CREATE PROCEDURE `leer_os_mobile` ()
+            BEGIN
+                SELECT 
+                *
+                FROM
+                os_mobile;
+            END
+        ');
+
+        // Panel de administrador
+        DB::unprepared('
+            DROP PROCEDURE IF EXISTS leer_panel_admin;
+            
+            CREATE PROCEDURE `leer_panel_admin` (
+                IN `l_id_org` int
+            )
+            BEGIN
+                SELECT 
+                *
+                FROM
+                panel_admin
+                WHERE
+                id_org = l_id_org;
+            END
+        ');
+
+        // Overview del usuario
+        DB::unprepared('
+        DROP PROCEDURE IF EXISTS datos_org_usr;
+        
+        CREATE PROCEDURE `datos_org_usr` (
+            IN `l_id_org` int
+        )
+        BEGIN
+            SELECT
+                o.*,
+                co.category as category
+            FROM
+                users_organizations as uo
+            LEFT JOIN
+                organization as o
+            ON
+                uo.id_org = o.id_org
+            LEFT JOIN
+                cat_org as co
+            ON
+                co.id_cat_org = o.id_cat_org
+            WHERE
+                uo.id_user = l_id_org;
+        END
+    ');
 
     }
 
@@ -233,15 +346,25 @@ class TechDataStoredProcedures extends Migration
         DB::unprepared('DROP PROCEDURE IF EXISTS editar_usuario;');
         DB::unprepared('DROP PROCEDURE IF EXISTS leer_usuarios;');
         DB::unprepared('DROP PROCEDURE IF EXISTS detalle_usuario;');
+        DB::unprepared('DROP PROCEDURE IF EXISTS eliminar_usuario;');
 
         DB::unprepared('DROP PROCEDURE IF EXISTS nuevo_org;');
         DB::unprepared('DROP PROCEDURE IF EXISTS editar_org;');
         DB::unprepared('DROP PROCEDURE IF EXISTS leer_org;');
         DB::unprepared('DROP PROCEDURE IF EXISTS detalle_org;');
+        DB::unprepared('DROP PROCEDURE IF EXISTS eliminar_org;');
 
         DB::unprepared('DROP PROCEDURE IF EXISTS nuevo_usr_org;');
         DB::unprepared('DROP PROCEDURE IF EXISTS editar_usr_org;');
         DB::unprepared('DROP PROCEDURE IF EXISTS leer_usr_org;');
         DB::unprepared('DROP PROCEDURE IF EXISTS detalle_usr_org;');
+        DB::unprepared('DROP PROCEDURE IF EXISTS eliminar_usr_org;');
+
+        DB::unprepared('DROP PROCEDURE IF EXISTS leer_cat_org;');
+        DB::unprepared('DROP PROCEDURE IF EXISTS leer_os_pc;');
+        DB::unprepared('DROP PROCEDURE IF EXISTS leer_os_mobile;');
+
+        DB::unprepared('DROP PROCEDURE IF EXISTS leer_panel_admin;');
+        DB::unprepared('DROP PROCEDURE IF EXISTS datos_org_usr;');
     }
 }

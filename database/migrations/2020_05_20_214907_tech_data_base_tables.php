@@ -31,7 +31,9 @@ class TechDataBaseTables extends Migration
             $table->unsignedBigInteger('id_admin');
             $table->foreign('id_admin')
                 ->references('id_user')
-                ->on('users');
+                ->on('users')         
+                ->constrained()
+                ->onDelete('cascade');
             $table->timestamps();
         });
 
@@ -40,11 +42,15 @@ class TechDataBaseTables extends Migration
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')
                 ->references('id_user')
-                ->on('users');
+                ->on('users')
+                ->constrained()
+                ->onDelete('cascade');
             $table->unsignedBigInteger('id_org');
             $table->foreign('id_org')
                 ->references('id_org')
-                ->on('organization');
+                ->on('organization')
+                ->constrained()
+                ->onDelete('cascade');
             $table->timestamps();
         });
 
