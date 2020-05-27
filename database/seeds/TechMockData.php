@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class TechMockData extends Seeder
 {
@@ -19,8 +20,8 @@ class TechMockData extends Seeder
             'name' => Str::random(5),
             'lastname_f' => Str::random(5),
             'lastname_m' => Str::random(5),
-            'email' => Str::random(15),
-            'password' => Str::random(15),
+            'email' => 'admin@mail.com',
+            'password' => Hash::make('123456'),
             'phone' => mt_rand(1000000000, 9999999999),
             'curp' => Str::random(18),
             'pc' => 'ESCRITORIO',
@@ -36,7 +37,7 @@ class TechMockData extends Seeder
             'name' => Str::random(5),
             'lastname_f' => Str::random(5),
             'lastname_m' => Str::random(5),
-            'email' => Str::random(15),
+            'email' => Str::random(8) . '@mail.com',
             'password' => Str::random(15),
             'phone' => mt_rand(1000000000, 9999999999),
             'curp' => Str::random(18),
@@ -53,7 +54,7 @@ class TechMockData extends Seeder
             'name' => Str::random(5),
             'lastname_f' => Str::random(5),
             'lastname_m' => Str::random(5),
-            'email' => Str::random(15),
+            'email' => Str::random(8) . '@mail.com',
             'password' => Str::random(15),
             'phone' => mt_rand(1000000000, 9999999999),
             'curp' => Str::random(18),
@@ -70,7 +71,7 @@ class TechMockData extends Seeder
             'name' => Str::random(5),
             'lastname_f' => Str::random(5),
             'lastname_m' => Str::random(5),
-            'email' => Str::random(15),
+            'email' => Str::random(8) . '@mail.com',
             'password' => Str::random(15),
             'phone' => mt_rand(1000000000, 9999999999),
             'curp' => Str::random(18),
@@ -85,7 +86,7 @@ class TechMockData extends Seeder
         DB::table('organization')->insert([
             'name' => Str::random(5),
             'address' => Str::random(25),
-            'email' => Str::random(15),
+            'email' => Str::random(8) . '@mail.com',
             'phone' => mt_rand(1000000000, 9999999999),
             'id_cat_org' => 1,
             'id_admin' => 1,
@@ -95,7 +96,7 @@ class TechMockData extends Seeder
         DB::table('organization')->insert([
             'name' => Str::random(5),
             'address' => Str::random(25),
-            'email' => Str::random(15),
+            'email' => Str::random(8) . '@mail.com',
             'phone' => mt_rand(1000000000, 9999999999),
             'id_cat_org' => 4,
             'id_admin' => 3,

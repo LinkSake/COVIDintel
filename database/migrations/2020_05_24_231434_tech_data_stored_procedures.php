@@ -107,7 +107,7 @@ class TechDataStoredProcedures extends Migration
                 IN `d_id_user` int
             )
             BEGIN
-                DELETE FROM catCursos
+                DELETE FROM users
                 WHERE id_user = d_id_user;
             END
         ');
@@ -182,7 +182,7 @@ class TechDataStoredProcedures extends Migration
                 IN `d_id_org` int
             )
             BEGIN
-                DELETE FROM catCursos
+                DELETE FROM organization
                 WHERE id_org = d_id_org;
             END
         ');
@@ -248,7 +248,7 @@ class TechDataStoredProcedures extends Migration
                 IN `d_id_usr_org` int
             )
             BEGIN
-                DELETE FROM catCursos
+                DELETE FROM user_organitations
                 WHERE id_usr_org = d_id_usr_org;
             END
         ');
@@ -309,29 +309,47 @@ class TechDataStoredProcedures extends Migration
 
         // Overview del usuario
         DB::unprepared('
-        DROP PROCEDURE IF EXISTS datos_org_usr;
+            DROP PROCEDURE IF EXISTS datos_org_usr;
+            
+            CREATE PROCEDURE `datos_org_usr` (
+                IN `l_id_org` int
+            )
+            BEGIN
+                SELECT
+                    o.*,
+                    co.category as category
+                FROM
+                    users_organizations as uo
+                LEFT JOIN
+                    organization as o
+                ON
+                    uo.id_org = o.id_org
+                LEFT JOIN
+                    cat_org as co
+                ON
+                    co.id_cat_org = o.id_cat_org
+                WHERE
+                    uo.id_user = l_id_org;
+            END
+        ');
+
+        //Login
+        DB::unprepared('
+        DROP PROCEDURE IF EXISTS check_if_admin;
         
-        CREATE PROCEDURE `datos_org_usr` (
-            IN `l_id_org` int
-        )
-        BEGIN
-            SELECT
-                o.*,
-                co.category as category
-            FROM
-                users_organizations as uo
-            LEFT JOIN
-                organization as o
-            ON
-                uo.id_org = o.id_org
-            LEFT JOIN
-                cat_org as co
-            ON
-                co.id_cat_org = o.id_cat_org
-            WHERE
-                uo.id_user = l_id_org;
-        END
-    ');
+            CREATE PROCEDURE `check_if_admin` (
+                IN `id_user` int
+            )
+            BEGIN
+                SELECT
+                    id_org
+                FROM
+                    organization
+                WHERE
+                    id_admin = id_user;
+            END
+        ');
+
 
     }
 
@@ -366,5 +384,6 @@ class TechDataStoredProcedures extends Migration
 
         DB::unprepared('DROP PROCEDURE IF EXISTS leer_panel_admin;');
         DB::unprepared('DROP PROCEDURE IF EXISTS datos_org_usr;');
+        DB::unprepared('DROP PROCEDURE IF EXISTS check_if_admin;');
     }
 }
