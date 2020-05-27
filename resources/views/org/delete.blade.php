@@ -32,6 +32,7 @@
                         <form action="{{action('OrganizationController@delete')}}" method="post">
                             @csrf
                             <input type="hidden" name="id" id="id" value="{{$org[0]->id_org}}">
+                            <input type="hidden" name="id_admin" id="id_admin" value="{{$org[0]->id_admin}}">
                             <button type="submit" class="btn btn-danger">Eliminar organización</button>
                         </form>
                     </div>

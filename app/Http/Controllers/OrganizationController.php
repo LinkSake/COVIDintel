@@ -18,11 +18,12 @@ class OrganizationController extends Controller
             ]);
     }
 
-    public function new()
+    public function new($id)
     {
         $cat = DB::select('CALL leer_cat_org');
         return view('org/detail',[
-            'cat' => $cat
+            'cat' => $cat,
+            'me' => $id
             ]);
     }
 
@@ -34,10 +35,16 @@ class OrganizationController extends Controller
         $phone = $this->validateString($request->input('phone'));
         $cat = $this->validateInt($request->input('id_cat_org'));
         $admin = $this->validateInt($request->input('id_admin'));
+
         $result = DB::select('
-        CALL nueva_org(?,?,?,?,?,?,?)
-        ', array($name, $address, $email, $phone, $cat, $admin));
-        return redirect()->action('OrganizationController@overview');
+        CALL nueva_org(?,?,?,?,?,?)
+        ', array($name, $cat, $address, $email, $phone, $admin));
+        $id = DB::select('CALL check_if_admin(?)', array($admin));
+
+        return redirect()->route('panel', [
+            'id_org' => $id[0]->id_org,
+            'id_user' => $admin
+        ]);
     }
 
     public function edit($id)
@@ -63,8 +70,11 @@ class OrganizationController extends Controller
         $admin = $this->validateInt($request->input('id_admin'));
         $result = DB::select('
             CALL editar_org(?,?,?,?,?,?,?)
-        ', array($id, $name, $address, $email, $phone, $cat, $admin));
-        return redirect()->action('OrganizationController@overview');
+        ', array($id, $name, $cat, $address, $email, $phone, $admin));
+        return redirect()->route('panel', [
+            'id_org' => $id,
+            'id_user' => $admin
+        ]);
     }
 
     public function remove($id)
@@ -85,7 +95,9 @@ class OrganizationController extends Controller
         $org = DB::select('
             CALL eliminar_org(?)
         ', array($id));
-        return redirect()->action('OrganizationController@new');
+        return redirect()->route('create_org', [
+            'id' => $request->input('id_admin'),
+        ]);
     }
 
 }
