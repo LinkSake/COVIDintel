@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\DB;
 class OrganizationController extends Controller
 {
 
-    public function overview($id)
+    public function overview($id_org, $id_user)
     {
-        $org = DB::select('CALL leer_panel_admin(?)', array($id));
-        $cat = DB::select('CALL leer_cat_org');
+        $users = DB::select('CALL leer_panel_admin(?)', array($id_org));
         return view('org/overview',[
-            'org' => $org,
-            'cat' => $cat
+            'users' => $users,
+            'org' => $id_org,
+            'me' => $id_user
             ]);
     }
 
