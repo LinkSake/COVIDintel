@@ -46,7 +46,6 @@ class TechDataStoredProcedures extends Migration
                 IN `n_lstf` varchar(255),
                 IN `n_lstm` varchar(255),
                 IN `n_email` varchar(255),
-                IN `n_password` varchar(255),
                 IN `n_phone` varchar(255),
                 IN `n_curp` varchar(255),
                 IN `n_pc` varchar(255),
@@ -62,7 +61,6 @@ class TechDataStoredProcedures extends Migration
                     lastname_f = n_lstf,
                     lastname_m = n_lstm,
                     email = n_email,
-                    password = n_password,
                     phone = n_phone,
                     curp = n_curp,
                     pc = n_pc,
@@ -103,7 +101,7 @@ class TechDataStoredProcedures extends Migration
         DB::unprepared('
             DROP PROCEDURE IF EXISTS eliminar_usuario;
             
-            CREATE PROCEDURE `eliminar_usr` (
+            CREATE PROCEDURE `eliminar_usuario` (
                 IN `d_id_user` int
             )
             BEGIN
@@ -121,11 +119,12 @@ class TechDataStoredProcedures extends Migration
                 IN `n_id_cat_org` int,
                 IN `n_address` varchar(255),
                 IN `n_email` varchar(255),
-                IN `n_phone` varchar(255)
+                IN `n_phone` varchar(255),
+                IN `n_admin` int
                 )
             BEGIN
-                INSERT INTO users (name, id_cat_org, address, email, phone)
-                VALUES (n_name, n_id_car_org, n_address, n_email, n_phone);
+                INSERT INTO organization (name, id_cat_org, address, email, phone, id_admin)
+                VALUES (n_name, n_id_cat_org, n_address, n_email, n_phone, n_admin);
             END
         ');
         DB::unprepared('
@@ -137,15 +136,17 @@ class TechDataStoredProcedures extends Migration
                 IN `n_id_cat_org` int,
                 IN `n_address` varchar(255),
                 IN `n_email` varchar(255),
-                IN `n_phone` varchar(255)
+                IN `n_phone` varchar(255),
+                IN `n_admin` int
                 )
             BEGIN
                 UPDATE organization SET 
                     name = n_name, 
-                    id_cat_org = n_id_car_org, 
+                    id_cat_org = n_id_cat_org, 
                     address = n_address, 
                     email = n_email,
-                    phone = n_phone
+                    phone = n_phone,
+                    id_admin = n_admin
                 WHERE e_id_org = id_org;
             END
         ');
@@ -248,7 +249,7 @@ class TechDataStoredProcedures extends Migration
                 IN `d_id_usr_org` int
             )
             BEGIN
-                DELETE FROM user_organitations
+                DELETE FROM users_organizations
                 WHERE id_usr_org = d_id_usr_org;
             END
         ');
@@ -317,6 +318,7 @@ class TechDataStoredProcedures extends Migration
             BEGIN
                 SELECT
                     o.*,
+                    uo.id_usr_org as id_usr_org,
                     co.category as category
                 FROM
                     users_organizations as uo

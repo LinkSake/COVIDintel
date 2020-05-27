@@ -7,13 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class UserOrgController extends Controller
 {
-    public function new()
+    public function new($id)
     {
         $orgs = DB::select('CALL leer_org');
-        $cat = DB::select('CALL leer_cat_org');
-        return view('usr_org/add',[
+        return view('usrorg/add',[
+            'user' => $id,
             'orgs' => $orgs,
-            'cat' => $cat
             ]);
     }
 
@@ -24,26 +23,32 @@ class UserOrgController extends Controller
         $result = DB::select('
         CALL nuevo_usr_org(?,?)
         ', array($user, $org));
-        return redirect()->action('UserController@overview');
+        return redirect()->route('board', [
+            'id' => $user,
+        ]);
     }
 
-    public function remove($id)
+    public function remove($id, $user, $rel)
     {
         $org = DB::select('
             CALL detalle_org(?)',array($id));
         $cat = DB::select('CALL leer_cat_org');
-        return view('usr_org/remove',[
+        return view('usrorg/bye',[
             'org' => $org,
-            'cat' => $cat
+            'cat' => $cat,
+            'user' => $user,
+            'rel' => $rel
            ]);
     }
 
     public function delete(Request $request)
     {
-        $id = $request->input('id');
+        $id = $request->input('rel');
         $result = DB::select('
             CALL eliminar_usr_org(?)
         ', array($id));
-        return redirect()->action('UserController@overview');
+        return redirect()->route('board', [
+            'id' => $request->input('user'),
+        ]);
     }
 }

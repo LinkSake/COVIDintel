@@ -69,7 +69,7 @@
             <div class="top-right links">
                 <a href="{{url('login')}}">Login</a>
                 <a href="{{url('user/new')}}">Registrarse</a>
-                <a href="http://">Registrarse como administrador</a>
+                <!-- <a href="{{url('user/admin/0')}}">Registrarse como administrador</a> -->
             </div>
 
             <div class="content">

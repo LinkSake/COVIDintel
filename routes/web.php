@@ -26,7 +26,7 @@ Route::group(['prefix'=>'login'], function() {
 
 Route::group(['prefix'=>'org'], function() {
     Route::get('panel/{id_org}/{id_user}', 'OrganizationController@overview')->name('panel');
-    Route::get('new', 'OrganizationController@new');
+    Route::get('new/{id}', 'OrganizationController@new')->name('create_org');
     Route::post('new', 'OrganizationController@create');
     Route::get('edit/{id}', 'OrganizationController@edit');
     Route::post('edit', 'OrganizationController@update');
@@ -35,11 +35,19 @@ Route::group(['prefix'=>'org'], function() {
 });
 
 Route::group(['prefix'=>'user'], function() {
-    Route::get('panel/{id}', 'OrganizationController@overview')->name('board');
+    Route::get('panel/{id}', 'UserController@overview')->name('board');
     Route::get('new', 'UserController@new');
+    Route::get('admin/{admin}', 'UserController@new');
     Route::post('new', 'UserController@create');
-    Route::get('edit/{id}', 'UserController@edit');
+    Route::get('edit/{id}/{admin?}', 'UserController@edit');
     Route::post('edit', 'UserController@update');
     Route::get('delete/{id}', 'UserController@remove');
     Route::post('delete', 'UserController@delete');
+});
+
+Route::group(['prefix'=>'rel'], function() {
+    Route::get('new/{id}', 'UserOrgController@new');
+    Route::post('new', 'UserOrgController@create');
+    Route::get('delete/{id}/{user}/{rel}', 'UserOrgController@remove');
+    Route::post('delete', 'UserOrgController@delete');
 });

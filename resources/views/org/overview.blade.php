@@ -8,7 +8,7 @@
             <div class="card-body">
                 <div class="row justify-content-center">
                     <div class="col-md-6 d-flex justify-content-center">
-                            <a href="{{ url('user/edit/'.$me) }}" class="btn btn-success" role="button">
+                            <a href="{{ url('user/edit/'.$me.'/'.$org) }}" class="btn btn-success" role="button">
                                 Editar
                             </a>
                     </div>
