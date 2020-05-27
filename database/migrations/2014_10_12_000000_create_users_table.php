@@ -18,11 +18,11 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('lastname_f');
             $table->string('lastname_m');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('password');
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->string('curp');
-            $table->string('pc');
+            $table->string('pc')->nullable();
             $table->boolean('mobile');
             $table->boolean('internet');
             $table->boolean('mobile_data');
