@@ -17,10 +17,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
+Route::group(['prefix'=>'org'], function() {
+    Route::get('panel/{id}', 'OrganizationController@overview');
+    Route::get('new', 'OrganizationController@new');
+    Route::post('new', 'OrganizationController@create');
+    Route::get('edit/{id}', 'OrganizationController@edit');
+    Route::post('edit', 'OrganizationController@update');
+    Route::get('delete/{id}', 'OrganizationController@remove');
+    Route::post('delete', 'OrganizationController@delete');
+});
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['prefix'=>'user'], function() {
+    // Route::get('panel/{id}', 'OrganizationController@overview');
+    Route::get('new', 'UserController@new');
+    Route::post('new', 'UserController@create');
+    // Route::get('edit/{id}', 'OrganizationController@edit');
+    // Route::post('edit', 'OrganizationController@update');
+    // Route::get('delete/{id}', 'OrganizationController@remove');
+    // Route::post('delete', 'OrganizationController@delete');
+});
